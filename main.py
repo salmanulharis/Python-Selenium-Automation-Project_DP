@@ -1,0 +1,1 @@
+exec(open("./Tests/add_discount.py").read())
