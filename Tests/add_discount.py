@@ -4,6 +4,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import unittest
 import HtmlTestRunner
+from testrail import *
 import time
 
 from Pages.discountRulePage import DiscountRulePage
@@ -18,9 +19,14 @@ class DiscountRuleTest(unittest.TestCase):
 		cls.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 		cls.driver.implicitly_wait(10)
 		cls.driver.maximize_window()
+		cls.client = APIClient('https://zennode.testrail.io/')
+		cls.client.user = 'litty@zennode.com'
+		cls.client.password = 'QA#INDIAZEN@NELLI'
+		
 
 	def test01_login_valid(self):
 		driver = self.driver
+		client = self.client
 		driver.get('http://localhost/automation/wp-login.php')
 		login = LoginPage(driver)
 		login.enter_username("groot")
@@ -31,23 +37,25 @@ class DiscountRuleTest(unittest.TestCase):
 	def test02_create_discount(self):
 		driver = self.driver
 		driver.get('http://localhost/automation/wp-admin/admin.php?page=thwdpf_settings')
+		case = self.client.send_get('get_case/1010958')
 
 		# add discount rule test
 		discountRule = DiscountRulePage(driver)
 		discountRule.clear_all_discounts()
 		discountRule.click_add_new_rule()
-		discountRule.enter_label("Test discount 12")
-		discountRule.enter_discount_amount("50")
-		discountRule.enter_start_date("Jul 01 2022")
-		discountRule.enter_start_time("00:30")
+		discountRule.enter_label(case['custom_label'].strip())
+		discountRule.enter_discount_amount(case['custom_discount_amount'].strip())
+		discountRule.enter_start_date(case['custom_start_date'].strip())
+		discountRule.enter_start_time(case['custom_start_time'].strip())
 		discountRule.enter_end_date("Dec 31 2022")
-		discountRule.enter_end_time("23:30")
+		discountRule.enter_end_time(case['custom_end_time'].strip())
 		discountRule.click_save_and_close()
 		discountRule.check_discount_rule_added()
 
 	def test03_discount_applied(self):
 		driver = self.driver
 		driver.get('http://localhost/automation/product/belt/')
+		case = self.client.send_get('get_case/1010958')
 
 		# add product to cart
 		product = ProductPage(driver)
@@ -58,7 +66,7 @@ class DiscountRuleTest(unittest.TestCase):
 		# check discount in cart page
 		driver.get('http://localhost/automation/cart/')
 		cart = CartPage(driver)
-		cart.check_amount_discount("50", sale_price)
+		cart.check_amount_discount(case['custom_discount_amount'].strip(), sale_price)
 
 	@classmethod
 	def tearDownClass(cls):
