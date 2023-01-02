@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 
 class DiscountRulePage():
 
@@ -16,6 +17,10 @@ class DiscountRulePage():
 		self.discount_rule_added_notice_xpath = "//p[contains(text(),'New discount rule added successfully.')]"
 		self.select_all_checkbox_name = "select_all"
 		self.delete_button_name = "delete_rules"
+		self.label_required_error_xpath = "//div[contains(text(),'Label is required.')]"
+		self.method_select_name = "i_method"
+		self.discount_type_select_name = "i_discount_type"
+		self.discount_amount_error_xpath = "//div[contains(text(),'Please provide a numeric value for Discount Amount')]"
 
 	def click_add_new_rule(self):
 		self.driver.find_element(By.NAME, self.add_new_rule_button_name).click()
@@ -50,7 +55,7 @@ class DiscountRulePage():
 	def check_discount_rule_added(self):
 		notice = self.driver.find_element(By.XPATH, self.discount_rule_added_notice_xpath).text
 		if len(notice):
-			print("The discount will be created successfully.")
+			print("The discount is created successfully.")
 		else:
 			raise Exception("Error: Discount rule not created.")
 
@@ -60,6 +65,28 @@ class DiscountRulePage():
 		alert = self.driver.switch_to.alert
 		alert.accept()
 
+	def check_label_required_error(self):
+		error = self.driver.find_element(By.XPATH, self.label_required_error_xpath).text
+		if len(error):
+			print("The error is successfully displayed.")
+		else:
+			raise Exception("Error: Label required error is not shown.")
+
+	def select_method(self, method_value):
+		select = Select(self.driver.find_element(By.NAME, self.method_select_name))
+		select.select_by_visible_text(method_value)
+
+	def select_discount_type(self, type_value):
+		select = Select(self.driver.find_element(By.NAME, self.discount_type_select_name))
+		select.select_by_visible_text(type_value)
+
+	def check_discount_amount_validation(self):
+		error = self.driver.find_element(By.XPATH, self.discount_amount_error_xpath).text
+		if len(error):
+			print("A validation message 'Please provide a numeric value for Discount Amount field' will appear on top of the pop-up.")
+		else:
+			raise Exception("Error: Discount amount validation error is not shown.")
+		
 
 
 

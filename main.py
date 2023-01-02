@@ -1,1 +1,1 @@
-exec(open("./Tests/add_discount.py").read())
+exec(open("./Tests/product_rules/general_properties.py").read())
