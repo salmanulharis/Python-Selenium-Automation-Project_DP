@@ -24,6 +24,7 @@ class DiscountRulePage():
 		self.min_qty_textbox_name = "i_range_min_qty[]"
 		self.max_qty_textbox_name = "i_range_max_qty[]"
 		self.rage_discount_textbox_name = "i_range_discount[]"
+		self.min_qty_error_xpath = "//div[contains(text(),'Invalid pricing range. Please ensure that all the Min. Qty fields have valid values.')]"
 
 	def click_add_new_rule(self):
 		self.driver.find_element(By.NAME, self.add_new_rule_button_name).click()
@@ -101,6 +102,13 @@ class DiscountRulePage():
 	def enter_rage_discount(self, input_value_8):
 		self.driver.find_element(By.NAME, self.rage_discount_textbox_name).clear()
 		self.driver.find_element(By.NAME, self.rage_discount_textbox_name).send_keys(input_value_8)
+
+	def min_qty_validation(self):
+		error = self.driver.find_element(By.XPATH, self.min_qty_error_xpath).text
+		if len(error):
+			print("The message 'Invalid pricing range. Please ensure that all the Min. Qty fields have valid values' will be displayed on top of the popup.")
+		else:
+			raise Exception("Error: Min qty validation error is not shown.")
 		
 
 

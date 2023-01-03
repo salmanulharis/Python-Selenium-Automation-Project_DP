@@ -249,6 +249,75 @@ class GeneralPropertiesTest(unittest.TestCase):
 		msg = "The discount will be applied to the particular product as a simple discount."
 		cart.check_amount_discount('default', case['custom_amount'].strip(), sale_price, msg=msg)
 
+
+	def test09_min_max_qty_invalid(self):
+		driver = self.driver
+		case = self.client.send_get('get_case/1010973')
+
+		# add discount rule
+		driver.get('http://localhost/automation/wp-admin/admin.php?page=thwdpf_settings')
+		discountRule = DiscountRulePage(driver)
+		discountRule.clear_all_discounts()
+		discountRule.click_add_new_rule()
+		discountRule.enter_label(case['custom_label'].strip())
+		discountRule.select_method(case['custom_method'].strip())
+		discountRule.enter_min_qty(case['custom_min_qty'].strip())
+		discountRule.click_save_and_close()
+		discountRule.min_qty_validation()
+
+	def test10_fixed_range(self):
+		driver = self.driver
+		case = self.client.send_get('get_case/1010977')
+
+		# add discount rule
+		driver.get('http://localhost/automation/wp-admin/admin.php?page=thwdpf_settings')
+		discountRule = DiscountRulePage(driver)
+		discountRule.clear_all_discounts()
+		discountRule.click_add_new_rule()
+		discountRule.enter_label(case['custom_label'].strip())
+		discountRule.select_method(case['custom_method'].strip())
+		discountRule.enter_min_qty(case['custom_min_qty'].strip())
+		discountRule.enter_max_qty(case['custom_max_qty'].strip())
+		discountRule.select_discount_type(case['custom_discount_type'].strip())
+		discountRule.enter_rage_discount(case['custom_amount'].strip())
+		discountRule.enter_start_date(case['custom_start_date'].strip())
+		discountRule.enter_start_time(case['custom_start_time'].strip())
+		discountRule.enter_end_date("Jan 31 2023")
+		discountRule.enter_end_time(case['custom_end_time'].strip())
+		discountRule.click_save_and_close()
+		discountRule.check_discount_rule_added()
+
+		#clear cart
+		driver.get('http://localhost/automation/cart/')
+		cart = CartPage(driver)
+		cart.clear_cart()
+
+		# add product to cart
+		driver.get('http://localhost/automation/product/sunglasses/')
+		product = ProductPage(driver)
+		product.edit_product_quantity(4)
+		product.click_add_to_cart()
+		product.check_product_added_to_cart()
+		sale_price = product.get_sale_price()
+
+		# check discount in cart page
+		driver.get('http://localhost/automation/cart/')
+		msg = "The discount will be applied to the particular product as a fixed discount."
+		cart.check_amount_discount(case['custom_discount_type'].strip(), case['custom_amount'].strip(), sale_price, msg=msg)
+
+
+	def test11_percentage_range(self):
+		driver = self.driver
+		case = self.client.send_get('get_case/1010979')
+
+		# add discount rule
+		driver.get('http://localhost/automation/wp-admin/admin.php?page=thwdpf_settings')
+		discountRule = DiscountRulePage(driver)
+		discountRule.clear_all_discounts()
+		discountRule.click_add_new_rule()
+
+
+
 	@classmethod
 	def tearDownClass(cls):
 		cls.driver.close()
