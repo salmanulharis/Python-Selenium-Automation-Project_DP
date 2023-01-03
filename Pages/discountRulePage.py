@@ -21,6 +21,9 @@ class DiscountRulePage():
 		self.method_select_name = "i_method"
 		self.discount_type_select_name = "i_discount_type"
 		self.discount_amount_error_xpath = "//div[contains(text(),'Please provide a numeric value for Discount Amount')]"
+		self.min_qty_textbox_name = "i_range_min_qty[]"
+		self.max_qty_textbox_name = "i_range_max_qty[]"
+		self.rage_discount_textbox_name = "i_range_discount[]"
 
 	def click_add_new_rule(self):
 		self.driver.find_element(By.NAME, self.add_new_rule_button_name).click()
@@ -86,6 +89,18 @@ class DiscountRulePage():
 			print("A validation message 'Please provide a numeric value for Discount Amount field' will appear on top of the pop-up.")
 		else:
 			raise Exception("Error: Discount amount validation error is not shown.")
+
+	def enter_min_qty(self, input_value_6):
+		self.driver.find_element(By.NAME, self.min_qty_textbox_name).clear()
+		self.driver.find_element(By.NAME, self.min_qty_textbox_name).send_keys(input_value_6)
+
+	def enter_max_qty(self, input_value_7):
+		self.driver.find_element(By.NAME, self.max_qty_textbox_name).clear()
+		self.driver.find_element(By.NAME, self.max_qty_textbox_name).send_keys(input_value_7)
+
+	def enter_rage_discount(self, input_value_8):
+		self.driver.find_element(By.NAME, self.rage_discount_textbox_name).clear()
+		self.driver.find_element(By.NAME, self.rage_discount_textbox_name).send_keys(input_value_8)
 		
 
 

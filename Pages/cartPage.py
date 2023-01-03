@@ -1,4 +1,7 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import WebDriverException
 
 class CartPage():
 
@@ -6,6 +9,8 @@ class CartPage():
 		self.driver = driver
 
 		self.product_price_text_xpath = "//body[1]/div[2]/div[2]/div[1]/div[2]/main[1]/article[1]/div[1]/div[1]/form[1]/table[1]/tbody[1]/tr[1]/td[4]/ins[1]/span[1]/bdi[1]"
+		self.cart_item_class_name = "cart_item"
+		self.remove_button_xpath = "/html[1]/body[1]/div[2]/div[2]/div[1]/div[2]/main[1]/article[1]/div[1]/div[1]/form[1]/table[1]/tbody[1]/tr[1]/td[1]/a[1]"
 
 	def check_amount_discount(self, discount_type, discount_amount=0, sale_price=0, msg=""):
 		cart_price = self.driver.find_element(By.XPATH, self.product_price_text_xpath).text
@@ -28,3 +33,17 @@ class CartPage():
 
 		else:
 			raise Exception("Discount is not applied.")
+
+	def clear_cart(self):
+		elements = self.driver.find_elements(By.CLASS_NAME, self.cart_item_class_name)
+		i = 1
+		if len(elements) > 0:
+			while i <= len(elements):
+				element = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.remove_button_xpath)))
+				try:
+				    element.click()
+				    i += 1
+				except:
+					pass
+			# except WebDriverException:
+			#     print("Element is not clickable")
