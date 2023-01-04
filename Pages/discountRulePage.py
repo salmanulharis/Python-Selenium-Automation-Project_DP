@@ -20,6 +20,7 @@ class DiscountRulePage():
 		self.label_required_error_xpath = "//div[contains(text(),'Label is required.')]"
 		self.method_select_name = "i_method"
 		self.discount_type_select_name = "i_discount_type"
+		self.range_discount_type_select_name = "i_range_discount_type[]"
 		self.discount_amount_error_xpath = "//div[contains(text(),'Please provide a numeric value for Discount Amount')]"
 		self.min_qty_textbox_name = "i_range_min_qty[]"
 		self.max_qty_textbox_name = "i_range_max_qty[]"
@@ -72,9 +73,13 @@ class DiscountRulePage():
 	def check_label_required_error(self):
 		error = self.driver.find_element(By.XPATH, self.label_required_error_xpath).text
 		if len(error):
+			result_flag = True
 			print("The error is successfully displayed.")
 		else:
+			result_flag = False
 			raise Exception("Error: Label required error is not shown.")
+
+		return result_flag
 
 	def select_method(self, method_value):
 		select = Select(self.driver.find_element(By.NAME, self.method_select_name))
@@ -84,12 +89,20 @@ class DiscountRulePage():
 		select = Select(self.driver.find_element(By.NAME, self.discount_type_select_name))
 		select.select_by_visible_text(type_value)
 
+	def select_range_discount_type(self, type_value):
+		select = Select(self.driver.find_element(By.NAME, self.range_discount_type_select_name))
+		select.select_by_visible_text(type_value)
+
 	def check_discount_amount_validation(self):
 		error = self.driver.find_element(By.XPATH, self.discount_amount_error_xpath).text
 		if len(error):
+			result_flag = True
 			print("A validation message 'Please provide a numeric value for Discount Amount field' will appear on top of the pop-up.")
 		else:
+			result_flag = False
 			raise Exception("Error: Discount amount validation error is not shown.")
+
+		return result_flag
 
 	def enter_min_qty(self, input_value_6):
 		self.driver.find_element(By.NAME, self.min_qty_textbox_name).clear()
@@ -106,9 +119,13 @@ class DiscountRulePage():
 	def min_qty_validation(self):
 		error = self.driver.find_element(By.XPATH, self.min_qty_error_xpath).text
 		if len(error):
+			result_flag = True
 			print("The message 'Invalid pricing range. Please ensure that all the Min. Qty fields have valid values' will be displayed on top of the popup.")
 		else:
+			result_flag = False
 			raise Exception("Error: Min qty validation error is not shown.")
+
+		return result_flag
 		
 
 

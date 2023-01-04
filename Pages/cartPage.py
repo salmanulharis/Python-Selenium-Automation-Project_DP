@@ -18,21 +18,26 @@ class CartPage():
 		discount_price = sale_price
 
 		if discount_amount and sale_price:
-			if discount_type == 'Fixed discount' or discount_type == 'default':
+			if discount_type == 'Fixed discount' or discount_type == 'default' or discount_type == 'Fixed':
 				discount_price = float(sale_price) - float(discount_amount)
-			elif discount_type == 'Percentage discount':
-				discount_price = float(sale_price) * (float(discount_amount)/100)
+			elif discount_type == 'Percentage discount' or discount_type == 'Percentage':
+				discount_price = float(sale_price) - (float(sale_price) * (float(discount_amount)/100))
+
 		print(sale_price)
 		print(discount_price)
 		print(cart_price)
+		
 		if discount_price == float(cart_price):
+			result_flag = True
 			if msg:
 				print(msg)
 			else:
 				print("Discount added succesfully.")
 
 		else:
+			result_flag = False
 			raise Exception("Discount is not applied.")
+		return result_flag
 
 	def clear_cart(self):
 		elements = self.driver.find_elements(By.CLASS_NAME, self.cart_item_class_name)
