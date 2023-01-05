@@ -1,10 +1,14 @@
 from testrail import *
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_client():
-	client = APIClient('https://zennode.testrail.io/')
-	client.user = 'litty@zennode.com'
-	client.password = 'QA#INDIAZEN@NELLI'
+	client = APIClient(os.getenv('TESTRAIL_CLIENT_URL'))
+	client.user = os.getenv('TESTRAIL_CLIENT_USER')
+	client.password = os.getenv('TESTRAIL_CLIENT_PASSWORD')
 	return client
 
 def get_project_id(project_name):
