@@ -9,12 +9,15 @@ class CartPage():
 		self.driver = driver
 
 		self.product_price_text_xpath = "//body[1]/div[2]/div[2]/div[1]/div[2]/main[1]/article[1]/div[1]/div[1]/form[1]/table[1]/tbody[1]/tr[1]/td[4]/ins[1]/span[1]/bdi[1]"
+		self.product_sale_price_text_xpath = "//body[1]/div[2]/div[2]/div[1]/div[2]/main[1]/article[1]/div[1]/div[1]/form[1]/table[1]/tbody[1]/tr[1]/td[4]/del[1]/span[1]/bdi[1]"
 		self.cart_item_class_name = "cart_item"
 		self.remove_button_xpath = "/html[1]/body[1]/div[2]/div[2]/div[1]/div[2]/main[1]/article[1]/div[1]/div[1]/form[1]/table[1]/tbody[1]/tr[1]/td[1]/a[1]"
 
-	def check_amount_discount(self, discount_type, discount_amount=0, sale_price=0, msg=""):
+	def check_amount_discount(self, discount_type, discount_amount=0, msg=""):
 		cart_price = self.driver.find_element(By.XPATH, self.product_price_text_xpath).text
+		sale_price = self.driver.find_element(By.XPATH, self.product_sale_price_text_xpath).text
 		cart_price = cart_price[1:]
+		sale_price = sale_price[1:]
 		discount_price = sale_price
 
 		if discount_amount and sale_price:
@@ -26,7 +29,7 @@ class CartPage():
 		print(sale_price)
 		print(discount_price)
 		print(cart_price)
-		
+
 		if discount_price == float(cart_price):
 			result_flag = True
 			if msg:

@@ -18,7 +18,10 @@ class ProductPage():
 		self.driver.find_element(By.XPATH, self.add_to_cart_button_xpath).click()
 
 	def get_sale_price(self):
-		element = self.driver.find_element(By.XPATH, self.striked_sale_price_text_xpath)
+		try:
+			element = self.driver.find_element(By.XPATH, self.sale_price_text_xpath)
+		except:
+			element = self.driver.find_element(By.XPATH, self.striked_sale_price_text_xpath)
 		sale_price = element.text[1:]
 		return sale_price
 

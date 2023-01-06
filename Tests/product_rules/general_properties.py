@@ -15,6 +15,7 @@ from Pages.cartPage import CartPage
 from Pages.loginPage import LoginPage
 from helper import get_client, get_test_run_id, update_test_run
 from Tests.helper import ProductRule
+from Tests.test_case_id import dp_test_case_id
 
 load_dotenv()
 
@@ -44,10 +45,10 @@ class GeneralPropertiesTest(unittest.TestCase):
 		login.click_login()
 		
 
-	@unittest.skip
+	#@unittest.skip
 	def test02_field_label(self):
 		driver = self.driver
-		case_id = 1010958
+		case_id = dp_test_case_id('field_label')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url
@@ -62,10 +63,10 @@ class GeneralPropertiesTest(unittest.TestCase):
 		update_test_run(case_id, run_id, result_flag, msg)
 
 
-	@unittest.skip
+	#@unittest.skip
 	def test03_discount_no_label(self):
 		driver = self.driver
-		case_id = 1010960
+		case_id = dp_test_case_id('discount_no_label')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url
@@ -79,10 +80,10 @@ class GeneralPropertiesTest(unittest.TestCase):
 		msg = "A validation message will be displayed on top[ that 'Label is required.'"
 		update_test_run(case_id, run_id, result_flag, msg)
 
-	@unittest.skip
+	#@unittest.skip
 	def test04_fixed_discount(self):
 		driver = self.driver
-		case_id = 1010961
+		case_id = dp_test_case_id('fixed_discount')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url
@@ -96,10 +97,10 @@ class GeneralPropertiesTest(unittest.TestCase):
 
 		update_test_run(case_id, run_id, result_flag, msg)
 
-	@unittest.skip
+	#@unittest.skip
 	def test05_percentage_discount(self):
 		driver = self.driver
-		case_id = 1010968
+		case_id = dp_test_case_id('percentage_discount')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url
@@ -113,10 +114,10 @@ class GeneralPropertiesTest(unittest.TestCase):
 
 		update_test_run(case_id, run_id, result_flag, msg)
 
-	@unittest.skip
+	#@unittest.skip
 	def test06_valid_discount_amount(self):
 		driver = self.driver
-		case_id = 1010969
+		case_id = dp_test_case_id('valid_discount_amount')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url
@@ -130,10 +131,10 @@ class GeneralPropertiesTest(unittest.TestCase):
 
 		update_test_run(case_id, run_id, result_flag, msg)
 
-	@unittest.skip
+	#@unittest.skip
 	def test07_invalid_discount_amount(self):
 		driver = self.driver
-		case_id = 1010970
+		case_id = dp_test_case_id('invalid_discount_amount')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url
@@ -152,10 +153,10 @@ class GeneralPropertiesTest(unittest.TestCase):
 		result_flag = discountRule.check_discount_amount_validation()
 		update_test_run(case_id, run_id, result_flag, msg)
 
-	@unittest.skip
+	#@unittest.skip
 	def test08_min_max_qty_valid(self):
 		driver = self.driver
-		case_id = 1010971
+		case_id = dp_test_case_id('min_max_qty_valid')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url
@@ -169,10 +170,10 @@ class GeneralPropertiesTest(unittest.TestCase):
 
 		update_test_run(case_id, run_id, result_flag, msg)
 
-	@unittest.skip
+	#@unittest.skip
 	def test09_min_max_qty_invalid(self):
 		driver = self.driver
-		case_id = 1010973
+		case_id = dp_test_case_id('min_max_qty_invalid')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url
@@ -191,10 +192,10 @@ class GeneralPropertiesTest(unittest.TestCase):
 		msg = "The message 'Invalid pricing range. Please ensure that all the Min. Qty fields have valid values' will be displayed on top of the popup."
 		update_test_run(case_id, run_id, result_flag, msg)
 
-	@unittest.skip
+	#@unittest.skip
 	def test10_fixed_range(self):
 		driver = self.driver
-		case_id = 1010977
+		case_id = dp_test_case_id('fixed_range')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url
@@ -208,10 +209,10 @@ class GeneralPropertiesTest(unittest.TestCase):
 
 		update_test_run(case_id, run_id, result_flag, msg)
 
-	@unittest.skip
+	#@unittest.skip
 	def test11_percentage_range(self):
 		driver = self.driver
-		case_id = 1010979
+		case_id = dp_test_case_id('percentage_range')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url
@@ -227,7 +228,7 @@ class GeneralPropertiesTest(unittest.TestCase):
 
 	def test12_bulk_discount_amount_valid(self):
 		driver = self.driver
-		case_id = 1010980
+		case_id = dp_test_case_id('bulk_discount_amount_valid')
 		run_id = self.test_run_id
 		case = self.client.send_get('get_case/%s'%(case_id))
 		settings_url = self.settings_url

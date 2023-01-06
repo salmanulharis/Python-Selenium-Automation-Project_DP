@@ -50,7 +50,7 @@ class ProductRule():
 		# add product to cart
 		driver.get(product_url)
 		product = ProductPage(driver)
-		sale_price = product.get_sale_price()
+		# sale_price = product.get_sale_price()
 		product.edit_product_quantity(quantity)
 		product.click_add_to_cart()
 		product.check_product_added_to_cart()
@@ -63,7 +63,7 @@ class ProductRule():
 		discount_method = 'default'
 		if case['custom_method']:
 			discount_method = case['custom_method'].strip()
-			
+
 		discount = 0
 		if discount_method == 'Simple discount' or discount_method == 'default':
 			discount = case['custom_discount_amount'].strip()
@@ -71,6 +71,6 @@ class ProductRule():
 			discount = case['custom_amount'].strip()
 
 
-		result_flag = cart.check_amount_discount(discount_type, discount, sale_price, msg=msg)
+		result_flag = cart.check_amount_discount(discount_type, discount, msg=msg)
 
 		return result_flag
